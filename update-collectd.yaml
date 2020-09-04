@@ -1,0 +1,41 @@
+---
+- hosts: overcloud_nodes
+  become: true
+  strategy: free
+  roles:
+   - 'roles/collectd-config-ansible-role'
+  vars:
+    collectd_conf_output_dir: /var/lib/config-data/puppet-generated/collectd/etc/collectd.d
+    collectd_plugin_logfile_file: /var/log/collectd/collectd.log
+    collectd_amqp_host: "{{ ansible_vlan30.ipv4.address if ansible_nodename | regex_search('(ceph)') else ansible_vlan20.ipv4.address }}"
+    collectd_plugins:
+      # - libpodstats 
+      - amqp1
+      # - ceph
+      - connectivity
+      - cpu
+      - csv
+      - df
+      - disk
+      - hugepages
+      - intel_rdt
+      - intel_pmu
+      - interface
+      - load
+      - logfile
+      - memory
+      - network
+      - ovs_stats
+      - processes
+      - procevent
+      - unixsock
+      - uptime
+      - virt
+  tasks:
+  - name: restart collectd containers
+    command: podman restart collectd
+    register: Output
+
+  - debug:
+      msg: New container id is {{ Output.stdout_lines[0] }}
+    when: Output is defined
