@@ -1,7 +1,7 @@
-This is a temporary convenience playbook that updates all plugin configurations for every collectd container on an OpenStack cloud deployed with infrared. Once configurations have been updated on each node, the collectd containers are restarted so that the new configs take effect.
+This is a temporary convenience playbook that updates all plugin configurations for every collectd container on an OpenStack cloud deployed with infrared using a slightly modified version of the [collectd-config-ansible-role](https://github.com/infrawatch/collectd-config-ansible-role/). Once configurations have been updated on each node, the collectd containers are restarted so that the new configs take effect.
 
 # Usage
-To run, you must be logged into the machine on which openstack was deployed infrared. Run:
+To run, you must be logged into the machine on which openstack was deployed with infrared. Run:
 
 ```
 . ~/infrared/.venv/bin/activate
